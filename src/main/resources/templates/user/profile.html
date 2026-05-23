@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <th:block th:replace="~{base :: parent(~{::#content}, ~{::#title}, ~{::#script})}">
+    
+    <th:block id="title">
+      <title th:text="${loggedInUser.name}+' | SCM'">Profile Page</title>
+    </th:block>
+
+    <div id="content" >
+      <!-- sidebar -->
+       <!-- user is logged in: sidebar -->
+      <div th:if="${loggedInUser}">
+        <div  th:replace="~{user/sidebar::sidebar}"></div>
+      </div>
+
+    <div class="sm:pl-64" >
+      <div class="flex justify-center flex-col items-center">
+      <h1 class="text-5xl">Welcome to Profile page</h1>
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, ullam?</p>
+      </div>
+    </div>
+    </div>
+    <th:block id="script">
+      <script>
+        console.log("THis is a Profile page");
+      </script>
+    </th:block>
+
+  </th:block>
+</html>

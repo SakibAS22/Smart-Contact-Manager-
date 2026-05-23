@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  </head>
+  <body
+    th:replace="~{base :: parent(~{::#content}, ~{::#title}, ~{::#script})}"
+  >
+    <th:block id="title">
+      <title>Add Contact</title>
+    </th:block>
+
+    <div id="content">
+      <!-- Sidebar -->
+      <div th:if="${loggedInUser}">
+        <div th:replace="~{user/sidebar::sidebar}"></div>
+      </div>
+
+      <div class="sm:pl-64 min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-8">
+          <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-1 md:col-span-3"></div>
+            <div class="col-span-10 md:col-span-6">
+              <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:shadow-xl">
+                <div th:replace="message :: messagebox"></div>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Add New Contact</h1>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">This contact will be stored securely in the cloud. You can email this client directly from SCM.</p>
+
+                <form action="" class="space-y-6"
+                  th:action="@{'/user/contacts/add'}"
+                  th:object="${contactForm}"
+                  method="post"
+                  enctype="multipart/form-data"
+                  novalidate
+                >
+                  <!--! Name -->
+                  <div>
+                    <label for="contact-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Name</label>
+                    <div class="relative mt-1">
+                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="fa-solid fa-user text-gray-500 dark:text-gray-400"></i>
+                      </div>
+                      <input type="text" 
+                            th:field="*{name}"
+                            class="w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="John Doe">
+                    </div>
+                    <p class="text-red-500 mt-1"
+                    th:if="${#fields.hasErrors('name')}"
+                    th:errors="*{name}"
+                    >Invalid Name</p>
+                  </div>
+
+
+                  <!--! Email -->
+                  <div>
+                    <label for="contact-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Email</label>
+                    <div class="relative mt-1">
+                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="fa-regular fa-envelope text-gray-500 dark:text-gray-400"></i>
+                      </div>
+                      <input type="email"
+                        th:field="*{email}"
+                        class="w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="example@gmail.com">
+                    </div>
+                    <p class="text-red-500 mt-1"
+                    th:if="${#fields.hasErrors('email')}"
+                    th:errors="*{email}"
+                    >Invalid email</p>
+                  </div>
+
+                  <!--! Phone -->
+                  <div>
+                    <label for="contact-phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Phone</label>
+                    <div class="relative mt-1">
+                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="fa-solid fa-phone text-gray-500 dark:text-gray-400"></i>
+                      </div>
+                      <input type="tel" th:field="*{phoneNumber}" class="w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="+91 98765 43210">
+                    </div>
+                    <p class="text-red-500 mt-1"
+                    th:if="${#fields.hasErrors('phoneNumber')}"
+                    th:errors="*{phoneNumber}"
+                    >Invalid PhoneNumber</p>
+                  </div>
+                  <!--! Address -->
+                  <div>
+                    <label for="contact-address" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Address</label>
+                    <textarea th:field="*{address}" rows="4" class="w-full p-3 mt-1 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="Contact's address"></textarea>
+                    <p class="text-red-500 mt-1"
+                    th:if="${#fields.hasErrors('address')}"
+                    th:errors="*{address}"
+                    >Invalid address</p>
+                  </div>
+                  
+
+                  <!--! Description -->
+                  <div>
+                    <label for="contact-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Description</label>
+                    <textarea th:field="*{description}" rows="4" class="w-full p-3 mt-1 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="Write about your contact"></textarea>
+                  </div>
+
+                  <!--! Social Links -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label for="website-link" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Website</label>
+                      <div class="relative mt-1">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                          <i class="fa-solid fa-earth-americas text-gray-500 dark:text-gray-400"></i>
+                        </div>
+                        <input type="url" th:field="*{websiteLink}" class="w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="http://example.com">
+                      </div>   
+                    </div>
+                    <div>
+                      <label for="linkedin-link" class="block text-sm font-medium text-gray-700 dark:text-gray-300">LinkedIn</label>
+                      <div class="relative mt-1">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                          <i class="fa-brands fa-linkedin text-gray-500 dark:text-gray-400"></i>
+                        </div>
+                        <input type="url" th:field="*{linkedInLink}" class="w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" placeholder="http://linkedin.com/in/example">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--! Contact Image -->
+                  <div>
+                    <label for="contact-image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Image</label>
+                    <input type="file" 
+                      id="image_file_input"
+                      th:field="*{contactImage}"  
+                      class="w-full mt-1 text-sm text-gray-900 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer focus:outline-none transition duration-200">
+                    <p class="text-red-500 mt-1"
+                    th:if="${#fields.hasErrors('contactImage')}"
+                    th:errors="*{contactImage}"
+                    >Invalid Name</p>
+                  </div>
+                  <img class="max-h-52 w-auto mx-auto border border-gray-300 rounded-lg bg-white object-cover" src="" id="upload_image_preview" alt="">
+                  <!--! Favorite Checkbox -->
+                  <div class="flex items-center">
+                      <input type="checkbox" th:field="*{favorite}" id="favorite-checkbox" class="w-4 h-4 border text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 transition duration-200">
+                      <label for="favorite-checkbox" class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Add to favorites</label>
+                  </div>
+                  <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const label = document.querySelector('label[for="favorite-checkbox"]');
+                            const checkbox = document.querySelector('#favorite-checkbox');
+                            if (label && checkbox) {
+                                label.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    checkbox.checked = !checkbox.checked;
+                                    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+                                });
+                            }
+                        });
+                  </script>
+
+                  <!-- !Buttons -->
+                  <div class="flex justify-center space-x-4">
+                    <button type="submit" 
+                            class="px-6 py-2 bg-black dark:bg-blue-600 hover:dark:bg-blue-700 text-white rounded-lg  focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-200">
+                      Add Contact</button>
+                    <button type="reset" class="px-6 py-2 bg-black dark:bg-blue-600 hover:dark:bg-blue-700 text-white rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none transition duration-200">
+                      Reset</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-span-1 md:col-span-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <th:block id="script">
+    <script th:src="@{'/js/admin.js'}"></script>
+      <script>
+        console.log("This is the Add Contact page");
+      </script>
+    </th:block>
+  </body>
+</html>

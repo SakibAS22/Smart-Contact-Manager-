@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <th:block th:replace="~{base :: parent(~{::#content}, ~{::#title}, ~{::#script})}">
+    
+    <th:block id="title">
+      <title>Contact Us Page</title>
+    </th:block>
+
+    <th:block id="content">
+      <h1>Welcome to Contact page</h1>
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, ullam?</p>
+    </th:block>
+
+    <th:block id="script">
+      <script>
+        console.log("Home page");
+      </script>
+    </th:block>
+
+  </th:block>
+</html>
